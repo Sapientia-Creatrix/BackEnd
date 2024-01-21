@@ -24,5 +24,11 @@ binder.router.delete("/", async(req:Request, res:Response) => {
     
 });
 
+//完成課程
+binder.router.post("/complete", async(req:Request, res:Response) => {
+
+});
+
+
 
 module.exports = binder;
