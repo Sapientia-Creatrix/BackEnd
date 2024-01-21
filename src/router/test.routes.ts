@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
-import { MyRouter } from "./MyRouter";
+import { MyRouterBinder } from "./MyRouter";
 
-const router = new MyRouter("/test");
+const binder = new MyRouterBinder("/test");
 
-router.getRouter().get("/", (req: Request, res: Response) => {
+binder.router.get("/", (req: Request, res: Response) => {
     const msg = {
         message: "TESTING EVERYTHING!!!",
         myRandomKey: "myRandomValue"
@@ -11,4 +11,4 @@ router.getRouter().get("/", (req: Request, res: Response) => {
     res.json(msg);
 });
 
-export { router };
+module.exports = binder;

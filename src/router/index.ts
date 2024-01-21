@@ -6,9 +6,11 @@ const router: Router = Router();
 
 const normalizedPath: string = path.join(__dirname);
 
+//自動註冊此目錄下具有".routes."的ts
 fs.readdirSync(normalizedPath).forEach(file => {
     if (file.includes(".routes.") && !file.includes("index.")) {
-        router.use(require(`./${file}`).router.getPath(), require(`./${file}`).router.getRouter());
+        router.use(require(`./${file}`).path, require(`./${file}`).router);
+        console.log(`registed route: ${file}`);
     }
 });
 

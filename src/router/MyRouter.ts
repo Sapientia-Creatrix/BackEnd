@@ -1,16 +1,16 @@
 import * as core from "express-serve-static-core";
 import {Router} from 'express';
-export class MyRouter{
-    private router : core.Router;
-    private path:string;
+export class MyRouterBinder{
+    private _router : core.Router;
+    private _path:string;
     constructor(path:string){
-        this.router = Router();
-        this.path = path;
+        this._router = Router();
+        this._path = path;
     }
-    public getPath():string{
-        return this.path;
+    public get path():string{
+        return this._path;
     }
-    public getRouter(): core.Router{
-        return this.router;
+    public get router(): core.Router{
+        return this._router;
     }
 }

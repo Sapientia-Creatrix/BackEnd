@@ -1,10 +1,10 @@
 import {Request, Response } from "express";
-import { MyRouter } from "./MyRouter";
+import { MyRouterBinder } from "./MyRouter";
 
 
-const router = new MyRouter("/status");
+const binder = new MyRouterBinder("/status");
 
-router.getRouter().get("/", (req: Request, res: Response) => {
+binder.router.get("/", (req: Request, res: Response) => {
     const msg = {
         status: "200 OK",
         message: "API is up and running."
@@ -12,4 +12,4 @@ router.getRouter().get("/", (req: Request, res: Response) => {
     res.json(msg);
 });
 
-export { router };
+module.exports = binder;
