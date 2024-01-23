@@ -15,6 +15,7 @@ class App {
 
     private config(): void {
         // Body parser to parse JSON and form-urlencoded payloads
+        // this.express.use(express.json());
         this.express.use(bodyParser.json());
         this.express.use(bodyParser.urlencoded({ extended: false }));
         // Pretty print for JSON repsonses
