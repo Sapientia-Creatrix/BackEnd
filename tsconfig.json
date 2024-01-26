@@ -1,12 +1,13 @@
 {
     "compilerOptions": {
-        "target": "es2017",
+        "target": "es2020",
         "outDir": "./dist/",
         "module": "commonjs",
         "lib": [
             "es2015",
             "es2016",
-            "dom"
+            "dom",
+            "es2020"
         ]
     },
     "include": [
