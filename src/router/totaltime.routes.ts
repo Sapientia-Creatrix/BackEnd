@@ -1,18 +1,19 @@
 import { Request, Response } from "express";
 import { MyRouterBinder } from "./MyRouter";
+import { ModelOnlineTime } from "../models/ModelOnlineTime";
 
 const binder = new MyRouterBinder("/totaltime");
+const modelOnlineTime = new ModelOnlineTime();
 
 binder.router.get("/", async(req: Request, res: Response) => {
-    const msg = {
-        message: "TESTING EVERYTHING!!!",
-        myRandomKey: "myRandomValue"
-    };
-    res.json(msg);
+    try{
+        let id:number = Number(req.query.id);
+        const result = await modelOnlineTime.getTotal(id);
+        res.json(result);
+    }catch(err){
+        res.json([]);
+    }
 });
 
-binder.router.put("/", async (req: Request, res: Response) => {
-    res.status(200);
-});
 
 module.exports = binder;
