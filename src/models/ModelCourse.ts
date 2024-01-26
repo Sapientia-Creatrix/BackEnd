@@ -28,7 +28,7 @@ export class ModelCourse implements IModel {
         connection.release();
         return result;
     }
-    async update(id:number,name:string, university:string, url:string, difficulty:Difficulty, rate:number, skills:string){
+    async update(id:number,name:string, university:string, url:string, difficulty:Difficulty, rate:number, skills:string, popularity:number){
         const array = await this.find(id);
         if(array.length!=0){
             const course = array[0];
@@ -38,10 +38,11 @@ export class ModelCourse implements IModel {
             difficulty = difficulty || course.difficulty;
             rate = rate || course.rate;
             skills = skills || course.skills;
+            popularity = popularity || course.popularity;
         }
-        const str = "update course set name=? , university=?, url=? , difficulty=? ,rate=?, skills=? where id=?;";
+        const str = "update course set name=? , university=?, url=? , difficulty=? ,rate=?, skills=?, popularity=? where id=?;";
         const connection = await database.getConnection();
-        const result = await connection.query(str,[name,university,rate,url,difficulty,rate,skills, id]);
+        const result = await connection.query(str,[name,university,rate,url,difficulty,rate,skills, popularity, id]);
         connection.release();
         return result;
     }
@@ -51,5 +52,9 @@ export class ModelCourse implements IModel {
         const result = await connection.query(str,[id]);
         connection.release();
         return result;
+    }
+    async exist(id:number){
+        const array = await this.find(id);
+        return array.length > 0;
     }
 }

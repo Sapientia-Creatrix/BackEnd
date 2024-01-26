@@ -36,13 +36,15 @@ export class ModelUser implements IModel {
             learning_path = learning_path || user.learning_path ;
             coin = coin || user.coin;
             console.log(`name=${name}\npassword_hash=${password_hash}\nskills=${skills}\nlearning_path=${learning_path}\ncoin=${coin}`);
+        }else{
+            return false;
         }
         
         const str = "update user set name=?, password_hash=?, skills=?, learning_path=?, coin=? where id= ? and deleted = false";
         const connection = await database.getConnection();
         const result = await connection.query(str, [id, name, password_hash, skills, learning_path, coin, id]);
         connection.release();
-        return result;
+        return true;
     }
     async delete(id:number){
         const str = "update user set \`deleted\`=true where \`id\`=?";

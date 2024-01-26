@@ -12,7 +12,7 @@ binder.router.get("/", async(req: Request, res: Response) => {
 });
 
 binder.router.put("/", async (req: Request, res: Response) => {
-
+    res.status(200);
 });
 
 module.exports = binder;

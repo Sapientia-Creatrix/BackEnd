@@ -21,7 +21,14 @@ binder.router.get("/", async(req: Request, res: Response) => {
 });
 
 binder.router.put("/", async(req: Request, res: Response) => {
-    
+    try{
+        let id : number = Number(req.body.id);
+        let amount : number = Number(req.body.amount);
+        const result = await modelUser.update(id,undefined,undefined,undefined,undefined, amount);
+        res.sendStatus(200);
+    }catch(err){
+        res.sendStatus(403);
+    }
 });
 
 module.exports = binder;

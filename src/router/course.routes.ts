@@ -9,6 +9,7 @@ const modelCourse = new ModelCourse();
 const modelCourseHistory = new ModelCourseHistory();
 const modelCourseComment = new ModelCourseComment();
 
+//查詢課程
 binder.router.get("/", async (req: Request, res: Response) => {
     //有ID的話 根據ID查課程 沒有的話回傳全部課程(only admin)
     try{
@@ -53,7 +54,8 @@ binder.router.put("/", async(req:Request, res:Response) => {
         let difficulty:number = Number(req.body.difficulty);
         let rate:number = Number(req.body.rate);
         let skills:string = req.body.skills;
-        const result = await modelCourse.update(id, name,university, url, difficulty, rate, skills);
+        let popularity : number = Number(req.body.popularity);
+        const result = await modelCourse.update(id, name,university, url, difficulty, rate, skills, popularity);
         res.sendStatus(200);
     }catch(err){
         res.sendStatus(403);
@@ -98,6 +100,7 @@ binder.router.post("/complete", async(req:Request, res:Response) => {
         let userId:number = Number(req.body.userId);
         let courseId:number = Number(req.body.courseId);
         const result = await modelCourseHistory.update(userId, courseId, 100);
+        res.sendStatus(200);
     }catch(err){
         res.sendStatus(403);
     }
@@ -120,12 +123,45 @@ binder.router.post("/credit", async(req:Request, res:Response) => {
 //查詢課程分數 評論
 binder.router.get("/credit", async(req:Request, res:Response) => {
     try{
-        let courseId:number = Number(req.body.courseId);
+        let courseId:number = Number(req.query.courseId);
         const result = await modelCourseComment.find(courseId);
+        res.json(result);
+    }catch(err){
+        res.json([]);
+    }
+});
+
+//點擊課程
+binder.router.post("/click", async(req:Request, res:Response) => {
+    try{
+        let user_id: number = Number(req.body.user_id);
+        let course_id: number = Number(req.body.course_id);
+        if((await modelCourse.exist(course_id))==false){
+            res.sendStatus(403);
+        }else{
+            const course =  await modelCourse.find(course_id);
+            const result = await modelCourse.update(course.id, course.name, course.university, 
+                course.url, course.difficulty, course.rate, course.skills, course.popularity+1);
+        }
+        
+        res.sendStatus(200);
+
+    }catch(err){
+        res.sendStatus(403);
+    }
+});
+
+//買課程
+binder.router.post("/buy", async(req:Request, res:Response) => {
+    try{
+        let user_id:number = Number(req.body.user_id);
+        let course_id:number = Number(req.body.course_id);
+        const result = await modelCourseHistory.add(user_id, course_id, 0);
         res.sendStatus(200);
     }catch(err){
         res.sendStatus(403);
     }
+
 });
 
 
