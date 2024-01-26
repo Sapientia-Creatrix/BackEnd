@@ -17,7 +17,7 @@ export class ModelCourse implements IModel {
     async find(id:number){
         const str = "select * from course where id=?";
         const connection = await database.getConnection();
-        const rows =await  connection.query(str);
+        const rows =await  connection.query(str,[id]);
         connection.release();
         return rows;
     }
