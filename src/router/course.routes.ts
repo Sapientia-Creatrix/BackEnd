@@ -80,7 +80,7 @@ binder.router.delete("/", async(req:Request, res:Response) => {
 //搜尋課程紀錄
 binder.router.get("/history", async (req:Request, res:Response) => {
     try{
-        let userId:number = Number(req.query.user);
+        let userId:number = Number(req.query.id);
         if(req.query.course == undefined){
             const result = await modelCourseHistory.findAll(userId);
             res.json(result);
