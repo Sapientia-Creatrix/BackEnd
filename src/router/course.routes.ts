@@ -139,7 +139,9 @@ binder.router.post("/click", async(req:Request, res:Response) => {
         if((await modelCourse.exist(course_id))==false){
             res.sendStatus(403);
         }else{
-            const course =  await modelCourse.find(course_id);
+            const array =  await modelCourse.find(course_id);
+            if(array.length  <0)res.sendStatus(403);
+            const course = array[0];
             const result = await modelCourse.update(course.id, course.name, course.university, 
                 course.url, course.difficulty, course.rate, course.skills, course.popularity+1);
         }

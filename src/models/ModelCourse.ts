@@ -10,21 +10,23 @@ export class ModelCourse implements IModel {
     async findAll(){
         const str = "select * from course";
         const connection = await database.getConnection();
-        const rows =await connection.query(str);
+        const rows =await connection.query(str, null, ["id", "name", "university", "url", "difficulty", "rate", "description", "popularity", "deleted"]);
         connection.release();
         return rows;
     }
     async find(id:number){
         const str = "select * from course where id=?";
         const connection = await database.getConnection();
-        const rows =await  connection.query(str,[id]);
+        const rows =await  connection.query(str,[id],["id", "name", "university", "url", "difficulty", "rate", "description", "popularity", "deleted"]);
         connection.release();
         return rows;
     }
     async add(name:string, university:string, url:string, difficulty:Difficulty, rate:number, skills:string){
-        const str = "insert into course (name, university, url, difficulty,rate,skills) values(?,?,?,?,?,?);";
+        // const str = `insert into course (name, university, url, difficulty,rate,skills) values(${name}, ${university}, ${url},  ${difficulty}, ${rate}, ${skill});`;
+        const str = "insert into course (name, university, url, difficulty,rate,skills) values(?,?,?,?,?,?);"
         const connection = await database.getConnection();
-        const result =await  connection.query(str,[name, university,url, difficulty,rate, skills]);
+        const result =await  connection.query(str,[name, university,url, difficulty,rate, skills],);
+        // const result = await connection.query(str);
         connection.release();
         return result;
     }
@@ -41,15 +43,17 @@ export class ModelCourse implements IModel {
             popularity = popularity || course.popularity;
         }
         const str = "update course set name=? , university=?, url=? , difficulty=? ,rate=?, skills=?, popularity=? where id=?;";
+        // const str = `update course set name=${name} , university=${university}, url=${url}, difficulty=${difficulty} ,rate=${rate}, skills=${skills}, popularity=${popularity} where id=${};`;
         const connection = await database.getConnection();
-        const result = await connection.query(str,[name,university,rate,url,difficulty,rate,skills, popularity, id]);
+        const result = await connection.query(str,[name,university,rate,url,difficulty,rate,skills, popularity, id], []);
+        // const result = await connection.query(str);
         connection.release();
         return result;
     }
     async delete(id:number){
         const str = "update course set deleted = true where id = ?;";
         const connection = await database.getConnection();
-        const result = await connection.query(str,[id]);
+        const result = await connection.query(str,[id], []);
         connection.release();
         return result;
     }

@@ -8,7 +8,7 @@ export class ModelOnlineTime implements IModel{
     async find(id:number){
         const str = "select * from onlineTime where user_id = ? and count > 0;";
         const connection = await database.getConnection();
-        const rows = await connection.query(str,[id]);
+        const rows = await connection.query(str,[id],["user_id", "date", "count"]);
         connection.release();
         return rows;
     }
@@ -39,7 +39,7 @@ export class ModelOnlineTime implements IModel{
     async getTotal(id:number){
         const str = "select user_id, SUM(`count`) as total_hours from onlineTime where user_id = ?;";
         const connection = await database.getConnection();
-        const result = await connection.query(str,[id]);
+        const result = await connection.query(str,[id], ["total_hours"]);
         connection.release();
         return result;
     }

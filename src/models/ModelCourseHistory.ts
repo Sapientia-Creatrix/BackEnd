@@ -8,14 +8,14 @@ export class ModelCourseHistory implements IModel {
     async findAll(userId:number){
         const str = "select * from courseHistory where user_id = ?;";
         const connection = await database.getConnection();
-        const rows = await connection.query(str,[userId]);
+        const rows = await connection.query(str,[userId],["id", "user_id", "course_id", "progress"]);
         connection.release();
         return rows;
     }
     async find(userId:number, courseId:number){
         const str = "select * from courseHistory where user_id = ? and course_id = ?;";
         const connection = await database.getConnection();
-        const rows =await connection.query(str,[userId, courseId]);
+        const rows =await connection.query(str,[userId, courseId],["id", "user_id", "course_id", "progress"]);
         connection.release();
         return rows;
     }
@@ -26,7 +26,7 @@ export class ModelCourseHistory implements IModel {
     async add(userId:number, courseId:number, progress:number){
         const str = "insert into courseHistory(user_id, course_id, progress) values(?,?,?);";
         const connection = await database.getConnection();
-        const result = await connection.query(str,[userId,courseId,progress]);
+        const result = await connection.query(str,[userId,courseId,progress],[]);
         connection.release();
         return result;
     }
@@ -36,14 +36,14 @@ export class ModelCourseHistory implements IModel {
         }
         const str = "update courseHistory set progress = ? there user_id = ? and  course_id =?;";
         const connection = await database.getConnection();
-        const result = await connection.query(str,[progress, userId, courseId]);
+        const result = await connection.query(str,[progress, userId, courseId],[]);
         connection.release();
         return result;
     }
     async delete(userId:number, courseId:number){
         const str = "delete from courseHistory where user_id = ? and course_id =?;";
         const connection = await database.getConnection();
-        const result = await connection.query(str,[userId, courseId]);
+        const result = await connection.query(str,[userId, courseId],[]);
         connection.release();
         return result;
     }

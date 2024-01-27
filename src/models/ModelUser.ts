@@ -8,27 +8,27 @@ export class ModelUser implements IModel {
     async findAll(){
         const str = "select * from user where deleted = false";
         const connection = await database.getConnection();
-        const rows = await connection.query(str);
+        const rows = await connection.query(str, [], ["id", "name", "gmail", "password_hash", "skills", "learning_path", "coin", "skillPrefer", "recommendHistory", "deleted"]);
         connection.release();
         return rows;
     }
     async find(id:number){
         const str = "select * from user where id = ? and deleted = false";
         const connection = await database.getConnection();
-        const result = await connection.query(str,[id]);
+        const result = await connection.query(str,[id],["id", "name", "gmail", "password_hash", "skills", "learning_path", "coin", "skillPrefer", "recommendHistory", "deleted"]);
         connection.release();
         return result;
     }
     async add(name:string, password_hash:string){
         const str = "insert into user(name, password_hash) values (?, ?)";
         const connection = await database.getConnection();
-        const result = await connection.query(str, [name, password_hash]);
+        const result = await connection.query(str, [name, password_hash],[]);
         connection.release();
         return result;
     }
     async update(id:number, name?:string, password_hash?:string, skills?:string, learning_path?:string, coin?:number){
         const array = await this.find(id);
-        if(array.lenght!=0){
+        if(array.length!=0){
             const user = array[0];
             name = name || user.name;
             password_hash = password_hash || user.password_hash;
@@ -42,7 +42,7 @@ export class ModelUser implements IModel {
         
         const str = "update user set name=?, password_hash=?, skills=?, learning_path=?, coin=? where id= ? and deleted = false";
         const connection = await database.getConnection();
-        const result = await connection.query(str, [id, name, password_hash, skills, learning_path, coin, id]);
+        const result = await connection.query(str, [id, name, password_hash, skills, learning_path, coin, id],[]);
         connection.release();
         return true;
     }

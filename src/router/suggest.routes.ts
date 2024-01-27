@@ -14,11 +14,11 @@ binder.router.get("/basic", async (req: Request, res: Response) => {
     try{
         let id:number = Number(req.query.id);
         let location:string = path.join(RECOMMEND_SYSTEM_LOCATION, "LearningCourseRecommender.py");
-        
         let options:Options = {
             args:[String(id),"recommend"],
         };
         let array = [];
+        
         PythonShell.run(location, options, function(err, stdout) {
             if(err){
                 console.log(err);
