@@ -3,7 +3,7 @@ import router from "./router";
 import database from "./database/database";
 import * as dotenv from 'dotenv';
 
-const dns = require('dns');
+import dns = require('dns');
 dns.setDefaultResultOrder("ipv4first");
 
 
